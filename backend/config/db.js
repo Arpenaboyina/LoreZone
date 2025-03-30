@@ -1,20 +1,18 @@
+require('dotenv').config();
 const mysql = require('mysql2');
-const dotenv = require('dotenv');
 
-dotenv.config(); // Load environment variables
-
-// Create a MySQL connection pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,    
-  user: process.env.DB_USER,    
-  password: process.env.DB_PASS, 
-  database: process.env.DB_NAME, 
+  host: process.env.DB_HOST,     // AWS RDS Endpoint
+  user: process.env.DB_USER,     // Your DB Username
+  password: process.env.DB_PASS, // Your DB Password
+  database: process.env.DB_NAME, // Your Database Name
+  port: 3306,                    // MySQL default port
   waitForConnections: true,
-  connectionLimit: 10,   // Max number of connections in the pool
+  connectionLimit: 10,
   queueLimit: 0
 });
 
-// Promisify the pool for async/await support
+// Convert to async/await
 const db = pool.promise();
 
 module.exports = db;
