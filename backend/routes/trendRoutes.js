@@ -4,6 +4,6 @@ const { getTrends } = require('../controllers/trendController');
 const router = express.Router();
 
 // GET /api/trends - Fetch all trends
-router.get('/', getTrends);
+router.get('/trends', getTrends);
 
 module.exports = router;

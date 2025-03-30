@@ -14,11 +14,11 @@ app.use(cors());
 app.use(express.json()); // Allow JSON parsing
 
 // Register Routes
-app.use('/api/trends', trendRoutes); // Base path for trends
-app.use('/api',eventRoutes)
-app.use('/api',DreambigRoutes)
+app.use('/api/trend', trendRoutes); // Base path for trends
+app.use('/api/event',eventRoutes)
+app.use('/api/dream,',DreambigRoutes)
 app.use("/api/posts", postRoutes);
-app.use('/api', brandRoutes);
+app.use('/api/brand', brandRoutes);
 // Default Route
 app.get('/', (req, res) => {
   res.send('API is running...');
