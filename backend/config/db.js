@@ -29,3 +29,7 @@ process.on('exit', async () => {
         console.error('Error closing Sequelize connection:', error);  
     }  
 });  
+
+// Export the Sequelize instance as `db`  
+const db = { sequelize };  
+module.exports = db;  
