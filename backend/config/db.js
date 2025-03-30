@@ -1,18 +1,31 @@
-require('dotenv').config();
-const mysql = require('mysql2');
+const { Sequelize, DataTypes } = require('sequelize');  
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,     // AWS RDS Endpoint
-  user: process.env.DB_USER,     // Your DB Username
-  password: process.env.DB_PASS, // Your DB Password
-  database: process.env.DB_NAME, // Your Database Name
-  port: 3306,                    // MySQL default port
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+// Initialize Sequelize connection  
+const sequelize = new Sequelize('lorezone', 'admin', 'Rakesh281004', {  
+    host: 'lorezone-database1.cl8qoikeqdft.ap-south-1.rds.amazonaws.com',  
+    dialect: 'mysql', // Specify the dialect (in this case, MySQL)  
+    operatorsAliases: false,  
+    pool: {  
+        max: 5,  
+        min: 0,  
+        acquire: 30000,  
+        idle: 10000  
+    }  
+});  
 
-// Convert to async/await
-const db = pool.promise();
+const db = {};  
+db.Sequelize = sequelize;  
+db.models = {};  
+db.models.User = require('./user')(sequelize, Sequelize.DataTypes);  
+module.exports = db;  
 
-module.exports = db;
+// Close Sequelize connection when the Node.js process exits  
+process.on('exit', () => {  
+    sequelize.close()  
+        .then(() => {  
+            console.log('Sequelize connection closed');  
+        })  
+        .catch((error) => {  
+            console.error('Error closing Sequelize connection:', error);  
+        });  
+});  
