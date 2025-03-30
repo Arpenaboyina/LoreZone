@@ -1,23 +1,20 @@
 const db = require('../config/db'); // Import MySQL connection
 
-class Trend {
-  constructor(id, trend_type, style_name, description, style_pic_url) {
-    this.id = id;
-    this.trend_type = trend_type;
-    this.style_name = style_name;
-    this.description = description;
-    this.style_pic_url = style_pic_url;
-  }
-}
-
+// Fetch all trends from the database
 const getTrends = async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM trends'); // Fetch trends from DB
-    res.json(rows);
+    const [trends] = await db.query('SELECT id, trend_type, style_name, description, style_pic_url FROM trends');
+
+    if (trends.length === 0) {
+      return res.status(404).json({ message: 'No trends found' });
+    }
+
+    res.status(200).json(trends);
   } catch (error) {
-    console.error('Error fetching trends:', error);
+    console.error('Database Error:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-module.exports = { getTrends, Trend }; // Export both
+// Export function
+module.exports = { getTrends };
