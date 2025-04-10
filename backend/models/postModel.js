@@ -1,28 +1,33 @@
 const db = require("../config/db");
 
 class Post {
-  static async getTopLikedPost(filters) {
+  static async getTopLikedPosts(filters) {
     const { skin_tone, height, gender, body_type, occasion, theme } = filters;
 
     const query = `
       SELECT * FROM posts 
-      WHERE skin_tone = ? AND height = ? AND gender = ? 
-      AND body_type = ? AND occasion = ? AND theme = ?
+      WHERE (? IS NULL OR skin_tone = ?) 
+      AND (? IS NULL OR height = ?) 
+      AND (? IS NULL OR gender = ?) 
+      AND (? IS NULL OR body_type = ?) 
+      AND (? IS NULL OR occasion = ?) 
+      AND (? IS NULL OR theme = ?)
       ORDER BY likes_count DESC
-      LIMIT 1
+      LIMIT 10
     `;
 
     try {
       const [rows] = await db.execute(query, [
-        skin_tone,
-        height,
-        gender,
-        body_type,
-        occasion,
-        theme,
+        skin_tone, skin_tone,
+        height, height,
+        gender, gender,
+        body_type, body_type,
+        occasion, occasion,
+        theme, theme,
       ]);
-      return rows[0] || null;
+      return rows; // Return all matching posts
     } catch (error) {
+      console.error("Database error:", error);
       throw error;
     }
   }
