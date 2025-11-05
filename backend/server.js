@@ -12,7 +12,17 @@ const watchmeRoutes = require("./routes/watchmeRoutes");
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Adjust if deployed
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://astonishing-travesseiro-449987.netlify.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Register Routes
@@ -30,3 +40,4 @@ app.get("/", (req, res) => {
 // Start Server
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
