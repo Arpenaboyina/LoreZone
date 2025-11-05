@@ -8,7 +8,7 @@ const DreamBig = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8081/api/dream/dream_big") //https://lorezone.onrender.com/api/dream/dream_big"
+    fetch("https://lorezone.onrender.com/api/dream/dream_big") //https://lorezone.onrender.com/api/dream/dream_big"
       .then((response) => response.json())
       .then((data) => {
         setDreams(data);

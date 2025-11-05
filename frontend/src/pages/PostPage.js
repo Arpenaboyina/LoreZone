@@ -22,7 +22,7 @@ const PostPage = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/userposts/posts");
+      const response = await axios.get("https://lorezone.onrender.com/api/userposts/posts"); //https://lorezone.onrender.com/api/dream/dream_big
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);

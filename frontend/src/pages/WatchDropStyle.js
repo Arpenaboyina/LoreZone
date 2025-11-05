@@ -34,7 +34,7 @@ function WatchDropStyle() {
   
     try {
       const response = await fetch(
-        `http://localhost:8081/api/posts/top-liked?${queryString}`
+        `https://lorezone.onrender.com/api/posts/top-liked?${queryString}`
       );
       
   
